@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1792125461840",
+    "createdAt": "2026-10-16 11:37:41",
+    "name": "nguyễn thị hải anh",
+    "phone": "0908686868",
+    "email": "anh@gmail.com",
+    "product": "bạn có quyền được  chon",
+    "price": 0,
+    "note": "mất ngủ",
+    "type": "Đặt Ebook",
+    "status": "Chưa liên hệ"
+  },
+  {
+    "id": "1729052000001",
+    "createdAt": "2026-10-16 08:30:15",
+    "name": "Nguyễn Hoàng Mai",
+    "phone": "0912345678",
+    "email": "hoangmai.dinhduong@gmail.com",
+    "product": "Bữa Ăn Cân Bằng (Dinh Dưỡng Lành)",
+    "price": 199000,
+    "note": "Mình hay bị đầy bụng khó tiêu vào buổi tối, nhờ Thủy tư vấn cách ăn cân bằng ạ.",
+    "type": "Đặt Ebook",
+    "status": "Chưa liên hệ"
+  },
+  {
+    "id": "1729052000002",
+    "createdAt": "2026-10-15 19:45:20",
+    "name": "Trần Thị Thu Trang",
+    "phone": "0987654321",
+    "email": "thutrang.tran@yahoo.com",
+    "product": "Phần Lớn Bạn Là Nước (Thanh Lọc Cơ Thể)",
+    "price": 199000,
+    "note": "Muốn học cách uống nước chuẩn để giảm mệt mỏi và da sáng hơn.",
+    "type": "Đặt Ebook",
+    "status": "Đã gửi Zalo"
+  },
+  {
+    "id": "1729052000003",
+    "createdAt": "2026-10-15 14:10:00",
+    "name": "Lê Văn Hùng",
+    "phone": "0903112233",
+    "email": "hung.le@outlook.com",
+    "product": "Khóa Học: Dinh Dưỡng Chuyển Hóa 21 Ngày",
+    "price": 0,
+    "note": "Đăng ký nhận ưu đãi 30% khi khóa học mở cổng.",
+    "type": "Đăng ký khóa học",
+    "status": "Hoàn thành"
+  }
+]

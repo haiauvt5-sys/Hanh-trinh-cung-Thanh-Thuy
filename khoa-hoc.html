@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Các Khóa Học Dự Kiến — Thanh Thủy</title>
+  <meta name="description" content="Các khóa học dự kiến cùng Thanh Thủy: Thấu hiểu nhu cầu dinh dưỡng của cơ thể, khả năng chuyển hóa tự nhiên và nuôi dưỡng thân tâm an lành, sống chủ động.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    .course-page-hero {
+      padding: 130px 0 70px 0;
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 60%, #1e4d3b 100%);
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .course-page-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -100px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(224, 159, 62, 0.22) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 8px 22px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fde68a;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .course-page-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 18px;
+      font-family: var(--font-heading);
+    }
+    .course-page-hero p {
+      font-size: 1.12rem;
+      line-height: 1.7;
+      color: #d1fae5;
+      max-width: 760px;
+      margin: 0 auto 30px auto;
+    }
+    .course-hero-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .courses-catalog-section {
+      padding: 90px 0;
+      background: var(--bg-page);
+    }
+    .course-detail-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 44px 38px;
+      margin-bottom: 36px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 40px;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .course-detail-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    .course-left-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .card-topic-tag {
+      display: inline-block;
+      align-self: flex-start;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: 16px;
+    }
+    .course-card-icon {
+      font-size: 2.8rem;
+      margin-bottom: 16px;
+    }
+    .course-left-info h3 {
+      font-size: 1.6rem;
+      color: var(--text-heading);
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+    .course-left-info p {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+    .course-topics-box {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      padding: 26px 24px;
+      border: 1px solid var(--border-light);
+    }
+    .course-topics-box h5 {
+      font-size: 0.92rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .topic-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .topic-list li {
+      font-size: 0.94rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.55;
+    }
+    .topic-list li i {
+      color: var(--primary);
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .philosophy-banner {
+      background: linear-gradient(135deg, #f7faf8 0%, #eef5f1 100%);
+      border-radius: var(--radius-lg);
+      padding: 44px 36px;
+      border: 1px solid rgba(45, 106, 79, 0.15);
+      margin-bottom: 50px;
+      text-align: center;
+    }
+    .philosophy-banner h3 {
+      font-size: 1.45rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .philosophy-banner p {
+      max-width: 680px;
+      margin: 0 auto;
+      color: var(--text-main);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .waitlist-section {
+      padding: 90px 0;
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+      color: #fff;
+      text-align: center;
+    }
+    .waitlist-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      padding: 50px 42px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .waitlist-box h2 {
+      color: #ffffff;
+      font-size: 2.1rem;
+      margin-bottom: 14px;
+    }
+    .waitlist-box p {
+      color: #d1fae5;
+      font-size: 1.02rem;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .waitlist-form input,
+    .waitlist-form select {
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: #ffffff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      box-sizing: border-box;
+    }
+    @media (max-width: 900px) {
+      .course-detail-card {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 32px 24px;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-inner">
+      <span>✨ <strong>Thanh Thủy:</strong> Đồng hành cùng bạn nuôi dưỡng thân tâm và sống bình an mỗi ngày.</span>
+      <a href="https://zalo.me/0978864099" target="_blank" class="bar-link">Kết nối Zalo <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="header" id="header" style="position: sticky; top: 0; background: rgba(255,255,255,0.96); backdrop-filter: blur(10px); z-index: 999; border-bottom: 1px solid var(--border-light);">
+    <div class="container header-container">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-symbol">
+          <span class="leaf-icon">🌿</span>
+          <span class="glow-orb"></span>
+        </div>
+        <div class="logo-text">
+          <span class="brand-title">Thanh Thủy</span>
+          <span class="brand-subtitle">Hành Trình Chuyển Hóa</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="nav-menu">
+        <ul class="nav-list">
+          <li><a href="index.html#hero" class="nav-link"><i class="fa-solid fa-arrow-left"></i> Về Trang Chủ</a></li>
+          <li><a href="index.html#about" class="nav-link">Về Thanh Thủy</a></li>
+          <li><a href="index.html#tien-ich" class="nav-link">Tiện Ích</a></li>
+          <li><a href="index.html#coaching" class="nav-link">Đồng Hành 1:1</a></li>
+          <li><a href="#danh-sach" class="nav-link active">Các Khóa Học Dự Kiến</a></li>
+          <li><a href="#dang-ky" class="nav-link">Đăng Ký Nhận Thông Tin</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://zalo.me/0978864099" target="_blank" class="btn btn-primary btn-sm btn-zalo-nav">
+          <i class="fa-solid fa-comment-dots"></i> Nhắn Thủy
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="course-page-hero">
+    <div class="container">
+      <div class="hero-badge-top">
+        <i class="fa-solid fa-seedling"></i> Các Khóa Học Dự Kiến
+      </div>
+      <h1>Không Gian Học Tập & Chuyển Hóa Thân Tâm</h1>
+      <p>
+        Mỗi cơ thể là một vũ trụ thu nhỏ với nhu cầu dinh dưỡng và khả năng chuyển hóa độc bản. Những khóa học dưới đây được Thủy ấp ủ thiết kế nhằm giúp bạn thấu hiểu chính mình, tự tay chăm sóc sức khỏe và xây dựng lối sống bình an, vững vàng.
+      </p>
+      <div class="course-hero-links">
+        <a href="#danh-sach" class="btn btn-accent" style="padding: 15px 32px;">
+          <i class="fa-solid fa-book-open"></i> Xem Danh Sách Khóa Học
+        </a>
+        <a href="index.html#coaching" class="btn btn-outline" style="border-color: #ffffff; color: #ffffff;">
+          <i class="fa-solid fa-hand-holding-heart"></i> Dịch Vụ Đồng Hành 1:1
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Danh sách các khóa học dự kiến -->
+  <section class="courses-catalog-section" id="danh-sach">
+    <div class="container">
+
+      <!-- Triết lý dẫn lối -->
+      <div class="philosophy-banner">
+        <h3>🌿 Tinh Thần Học Tập Cùng Thanh Thủy</h3>
+        <p>
+          Không có công thức ăn uống rập khuôn cho tất cả mọi người. Học cùng Thủy là hành trình quay về lắng nghe cơ thể, hiểu đúng nhu cầu nuôi dưỡng từ tế bào và chuyển hóa nhẹ nhàng, tự nhiên từ bên trong.
+        </p>
+      </div>
+
+      <!-- Khóa Học 1 -->
+      <div class="course-detail-card">
+        <div class="course-left-info">
+          <span class="card-topic-tag">Khóa Học Dự Kiến</span>
+          <div class="course-card-icon">🌿</div>
+          <h3>Thấu Hiểu Nhu Cầu Dinh Dưỡng & Khả Năng Chuyển Hóa Của Cơ Thể</h3>
+          <p>
+            Giúp bạn nhận diện chính xác cơ thể đang thực sự thiếu gì, cần gì; giải mã các tín hiệu mệt mỏi hay rối loạn tiêu hóa và học cách nuôi dưỡng tế bào từ nguồn thực phẩm tự nhiên mỗi ngày.
+          </p>
+          <button class="btn btn-primary" onclick="selectCourseToRegister('Thấu Hiểu Nhu Cầu Dinh Dưỡng & Khả Năng Chuyển Hóa')">
+            <i class="fa-solid fa-bell"></i> Đăng Ký Nhận Thông Tin Khi Mở Lớp
+          </button>
+        </div>
+        <div class="course-topics-box">
+          <h5><i class="fa-solid fa-list-check"></i> Trọng Tâm Khóa Học</h5>
+          <ul class="topic-list">
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Nhận diện nhu cầu cơ thể:</strong> Phân biệt đói sinh học và thèm ăn do cảm xúc hay mất nước.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Giải mã khả năng chuyển hóa:</strong> Hiểu rõ vì sao cơ thể tích trữ mỡ, mệt mỏi sau ăn hay chậm tiêu.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Phục hồi hệ vi sinh đường ruột:</strong> Nuôi dưỡng bộ não thứ hai để nâng cao miễn dịch và hấp thu trọn vẹn dưỡng chất.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Nhịp sinh học tự nhiên:</strong> Ăn đúng giờ, ngủ đúng nhịp để cơ thể tự kích hoạt cơ chế tái tạo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Khóa Học 2 -->
+      <div class="course-detail-card">
+        <div class="course-left-info">
+          <span class="card-topic-tag">Khóa Học Dự Kiến</span>
+          <div class="course-card-icon">🥑</div>
+          <h3>Cân Bằng Đĩa Ăn — Nuôi Dưỡng Thân Lành & Tái Tạo Năng Lượng</h3>
+          <p>
+            Nghệ thuật phối hợp thực phẩm tươi lành đủ chất, ăn ngon, no lâu, giải phóng gánh nặng cho hệ tiêu hóa và phục hồi nguồn năng lượng thuần khiết suốt ngày dài.
+          </p>
+          <button class="btn btn-primary" onclick="selectCourseToRegister('Cân Bằng Đĩa Ăn — Nuôi Dưỡng Thân Lành')">
+            <i class="fa-solid fa-bell"></i> Đăng Ký Nhận Thông Tin Khi Mở Lớp
+          </button>
+        </div>
+        <div class="course-topics-box">
+          <h5><i class="fa-solid fa-list-check"></i> Trọng Tâm Khóa Học</h5>
+          <ul class="topic-list">
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Cấu trúc đĩa ăn chuẩn:</strong> Tỷ lệ vàng giữa rau củ tươi, đạm lành, chất béo tốt và tinh bột chậm.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Ổn định đường huyết:</strong> Cắt đứt cơn thèm ngọt và tình trạng uể oải, tụt năng lượng buổi chiều.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Gìn giữ dưỡng chất trong tủ lạnh:</strong> Cách sơ chế, bảo quản thực phẩm sạch để bữa ăn gia đình luôn tươi ngon.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Thực đơn nhanh cho người bận rộn:</strong> Nấu nướng giản đơn mà vẫn đủ đầy dưỡng chất cho cả nhà.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Khóa Học 3 -->
+      <div class="course-detail-card">
+        <div class="course-left-info">
+          <span class="card-topic-tag">Khóa Học Dự Kiến</span>
+          <div class="course-card-icon">✨</div>
+          <h3>Lắng Nghe Cơ Thể — Chuyển Hóa Cảm Xúc & Sống Bình An</h3>
+          <p>
+            Khám phá mối liên hệ mật thiết giữa trục Não – Ruột và cảm xúc; giải tỏa căng thẳng qua nhịp ăn tự nhiên, giấc ngủ sâu và xây dựng lối sống tự chủ, nhẹ nhõm từ bên trong.
+          </p>
+          <button class="btn btn-primary" onclick="selectCourseToRegister('Lắng Nghe Cơ Thể — Chuyển Hóa Cảm Xúc')">
+            <i class="fa-solid fa-bell"></i> Đăng Ký Nhận Thông Tin Khi Mở Lớp
+          </button>
+        </div>
+        <div class="course-topics-box">
+          <h5><i class="fa-solid fa-list-check"></i> Trọng Tâm Khóa Học</h5>
+          <ul class="topic-list">
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Trục Não – Ruột & Tâm trạng:</strong> Vì sao stress làm rối loạn đường ruột và cách làm dịu tâm trí qua thức ăn.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Ăn trong tỉnh thức (Mindful Eating):</strong> Chậm lại một nhịp để cảm nhận hương vị và sự nuôi dưỡng của từng miếng ăn.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Chăm sóc giấc ngủ sâu:</strong> Thiết lập thói quen buổi tối giúp cơ thể phục hồi hoàn toàn sau ngày dài.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Thực hành yêu thương chính mình:</strong> Biết dừng lại, biết nghỉ ngơi và không còn phán xét cơ thể.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Khóa Học 4 -->
+      <div class="course-detail-card">
+        <div class="course-left-info">
+          <span class="card-topic-tag">Khóa Học Dự Kiến</span>
+          <div class="course-card-icon">🏡</div>
+          <h3>Thiết Lập Lối Sống Tự Chủ & Làm Chủ Sức Khỏe Gia Đình</h3>
+          <p>
+            Đóng gói kiến thức dinh dưỡng thành thói quen tự nhiên mỗi ngày, trở thành người chăm sóc sức khỏe chủ động và truyền cảm hứng an lành cho người thân.
+          </p>
+          <button class="btn btn-primary" onclick="selectCourseToRegister('Thiết Lập Lối Sống Tự Chủ & Sức Khỏe Gia Đình')">
+            <i class="fa-solid fa-bell"></i> Đăng Ký Nhận Thông Tin Khi Mở Lớp
+          </button>
+        </div>
+        <div class="course-topics-box">
+          <h5><i class="fa-solid fa-list-check"></i> Trọng Tâm Khóa Học</h5>
+          <ul class="topic-list">
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Xây dựng lối sống tự chủ:</strong> Không phụ thuộc vào thực đơn tạm thời, tự tin làm chủ sức khỏe trọn đời.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Quản lý gian bếp thông minh:</strong> Lựa chọn nguyên liệu an lành, tối ưu chi phí và tiện lợi mỗi ngày.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Dinh dưỡng chuyển hóa theo lứa tuổi:</strong> Cách chăm sóc bữa ăn cho con cái và cha mẹ lớn tuổi.</li>
+            <li><i class="fa-solid fa-circle-check"></i> <strong>Lan tỏa thói quen sống tích cực:</strong> Nuôi dưỡng năng lượng yêu thương và sự gắn kết trong tổ ấm.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Form Đăng Ký Nhận Thông Tin -->
+  <section class="waitlist-section" id="dang-ky">
+    <div class="container">
+      <div class="waitlist-box">
+        <span class="coming-tag" style="background: rgba(255,255,255,0.2); color: #fde68a;">
+          🌿 Đồng Hành Cùng Thủy
+        </span>
+        <h2>Đăng Ký Nhận Thông Tin Khi Mở Lớp</h2>
+        <p>
+          Các khóa học hiện đang trong giai đoạn hoàn thiện giáo trình. Khi có lịch khai giảng chính thức, Thủy sẽ ưu tiên nhắn tin thông báo đến bạn trước nhé.
+        </p>
+
+        <form id="courseRegisterForm" class="waitlist-form" onsubmit="submitCourseRegister(event)">
+          <div class="form-row">
+            <input type="text" id="regName" placeholder="Họ và tên của bạn *" required>
+            <input type="tel" id="regPhone" placeholder="Số điện thoại / Zalo *" required>
+          </div>
+          <select id="regCourse" required>
+            <option value="">-- Chọn khóa học bạn đang quan tâm * --</option>
+            <option value="Thấu Hiểu Nhu Cầu Dinh Dưỡng & Khả Năng Chuyển Hóa">1. Thấu Hiểu Nhu Cầu Dinh Dưỡng & Khả Năng Chuyển Hóa</option>
+            <option value="Cân Bằng Đĩa Ăn — Nuôi Dưỡng Thân Lành">2. Cân Bằng Đĩa Ăn — Nuôi Dưỡng Thân Lành & Tái Tạo Năng Lượng</option>
+            <option value="Lắng Nghe Cơ Thể — Chuyển Hóa Cảm Xúc">3. Lắng Nghe Cơ Thể — Chuyển Hóa Cảm Xúc & Sống Bình An</option>
+            <option value="Thiết Lập Lối Sống Tự Chủ & Sức Khỏe Gia Đình">4. Thiết Lập Lối Sống Tự Chủ & Làm Chủ Sức Khỏe Gia Đình</option>
+            <option value="Tất cả các khóa học dự kiến">5. Quan tâm tất cả các khóa học</option>
+          </select>
+          <button type="submit" class="btn btn-accent btn-block" style="padding: 16px; font-size: 1.05rem;">
+            <i class="fa-solid fa-paper-plane"></i> Đăng Ký Nhận Thông Báo Khai Giảng
+          </button>
+        </form>
+        <p style="font-size: 0.82rem; color: #a7f3d0; margin-top: 14px; margin-bottom: 0;">
+          🔒 Thông tin của bạn được tôn trọng và bảo mật tuyệt đối.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="padding: 40px 0; background: var(--bg-surface); text-align: center; border-top: 1px solid var(--border-light);">
+    <div class="container">
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">
+        © 2026 Bản quyền thuộc về <strong>Thanh Thủy – Hành Trình Chuyển Hóa</strong>.
+      </p>
+      <p style="color: var(--primary); font-size: 0.9rem;">
+        <a href="index.html" style="color: var(--primary); font-weight: 600;">Trang Chủ</a> • 
+        <a href="index.html#coaching" style="color: var(--primary); font-weight: 600;">Đồng Hành 1:1</a> • 
+        <a href="https://zalo.me/0978864099" target="_blank" style="color: var(--primary); font-weight: 600;">Zalo: 0978 864 099</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function selectCourseToRegister(courseName) {
+      const selectEl = document.getElementById('regCourse');
+      if (selectEl) {
+        for (let i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].value.includes(courseName) || courseName.includes(selectEl.options[i].value)) {
+            selectEl.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      document.getElementById('dang-ky').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function submitCourseRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const course = document.getElementById('regCourse').value;
+      if (!name || !phone) return;
+
+      // Lưu vào backend
+      fetch('/api/customers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          phone: phone,
+          email: '',
+          note: `Đăng ký nhận thông tin khi có lịch khai giảng`,
+          product: course || 'Các Khóa Học Dự Kiến',
+          price: 0,
+          type: 'Đăng ký khóa học dự kiến'
+        })
+      }).catch(err => console.log(err));
+
+      alert(`Cảm ơn ${name}! Thủy đã lưu số Zalo ${phone}. Khi khóa học "${course}" có lịch khai giảng chính thức, Thủy sẽ ưu tiên nhắn tin cho bạn nhé! 🌿`);
+      window.open(`https://zalo.me/0978864099?text=${encodeURIComponent(`Chào Thủy, mình là ${name} (SĐT Zalo: ${phone}), mình vừa đăng ký nhận thông tin khi có lịch khai giảng khóa: ${course}!`)}`, '_blank');
+    }
+  </script>
+</body>
+</html>

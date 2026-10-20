@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trung Tâm Dữ Liệu Khách Hàng – Thanh Thủy</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #1e4d3b;
+      --primary-light: #2d6a4f;
+      --primary-dark: #143528;
+      --accent: #d4a373;
+      --accent-hover: #bc8a5f;
+      --gold: #e09f3e;
+      --bg: #f8f6f0;
+      --card-bg: #ffffff;
+      --text-main: #2b2d42;
+      --text-muted: #6c757d;
+      --border: rgba(30, 77, 59, 0.12);
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(30, 77, 59, 0.08);
+      --shadow-lg: 0 16px 40px rgba(30, 77, 59, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Passcode Screen */
+    #lockScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at top, #2d6a4f 0%, #143528 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .lock-box {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    .lock-icon {
+      width: 70px;
+      height: 70px;
+      background: #eaf5ef;
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+    }
+
+    .lock-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .lock-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .lock-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 2px;
+      outline: none;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .lock-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.15);
+    }
+
+    .lock-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .lock-btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    /* Main Dashboard Header */
+    .dash-header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: #eaf5ef;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .brand-info h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px;
+      background: #eaf5ef;
+      color: var(--primary-light);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .brand-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      background: #f4f8f5;
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: #2e7d32;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #1b5e20;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 24px;
+      flex: 1;
+    }
+
+    /* Metric Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-content .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .stat-content .stat-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Playfair Display', serif;
+    }
+
+    .stat-content .stat-sub {
+      font-size: 12px;
+      color: #2e7d32;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .stat-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .stat-icon.green { background: #eaf5ef; color: var(--primary); }
+    .stat-icon.gold { background: #fdf5e6; color: var(--gold); }
+    .stat-icon.blue { background: #e8f4fd; color: #1976d2; }
+    .stat-icon.purple { background: #f3e8fd; color: #7b1fa2; }
+
+    /* Control Panel / Filter Bar */
+    .control-panel {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .search-group {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .search-group i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .select-filter {
+      padding: 11px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      color: var(--text-main);
+      background: white;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-filter:focus {
+      border-color: var(--primary);
+    }
+
+    /* Main Table */
+    .table-container {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .table-header-box {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-count {
+      background: #eaf5ef;
+      color: var(--primary);
+      font-size: 12px;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead {
+      background: #fbfbf9;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 16px 18px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      vertical-align: middle;
+    }
+
+    tr:hover {
+      background-color: #fafcfb;
+    }
+
+    .customer-info strong {
+      display: block;
+      color: var(--primary);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .customer-info span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .phone-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #1e4d3b;
+      background: #eaf5ef;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .phone-tag:hover {
+      background: #d5ecd9;
+      transform: translateY(-1px);
+    }
+
+    .zalo-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #0068ff;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .zalo-action:hover {
+      opacity: 0.9;
+    }
+
+    .badge-product {
+      display: inline-block;
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: #fdf5e6;
+      color: #925c14;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .badge-type {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      background: #f0f0f0;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    .status-select {
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .status-select.uncontacted {
+      background: #fff3e0;
+      color: #e65100;
+      border-color: #ffe0b2;
+    }
+
+    .status-select.contacted {
+      background: #e3f2fd;
+      color: #0d47a1;
+      border-color: #bbdefb;
+    }
+
+    .status-select.done {
+      background: #e8f5e9;
+      color: #1b5e20;
+      border-color: #c8e6c9;
+    }
+
+    .action-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: #f4f8f5;
+    }
+
+    .btn-icon.delete:hover {
+      color: #dc3545;
+      border-color: #dc3545;
+      background: #fff5f5;
+    }
+
+    /* Empty State */
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: #d1d5db;
+      margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      color: var(--primary);
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--primary);
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--primary-dark);
+      color: white;
+      padding: 14px 22px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 10000;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dash-header {
+        padding: 14px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filter-group {
+        width: 100%;
+      }
+      .select-filter {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lock Screen Bảo Mật -->
+  <div id="lockScreen">
+    <div class="lock-box">
+      <div class="lock-icon">🌿</div>
+      <h2 class="lock-title">Hành Trình Cùng Thanh Thủy</h2>
+      <p class="lock-desc">Khu vực quản trị dữ liệu khách hàng. Vui lòng nhập mã bảo mật để tiếp tục.</p>
+      <input type="password" id="passInput" class="lock-input" placeholder="Nhập mã bảo vệ..." autofocus onkeydown="if(event.key==='Enter') verifyPass()">
+      <button class="lock-btn" onclick="verifyPass()">
+        <i class="fa-solid fa-lock-open"></i> MỞ KHÓA TRUY CẬP
+      </button>
+      <p style="font-size: 12px; color: #888; margin-top: 14px;">Mã bảo mật mặc định: <strong>thuy2026</strong></p>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <header class="dash-header">
+    <div class="brand-group">
+      <div class="brand-icon">🌿</div>
+      <div class="brand-info">
+        <h1>Trung Tâm Dữ Liệu Khách Hàng <span class="brand-badge">Bản Quyền Thanh Thủy</span></h1>
+        <p>Quản lý danh sách khách đặt Ebook, đăng ký tư vấn & nhận thông tin khóa học</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="http://localhost:8080" target="_blank" class="btn btn-outline">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Trang Web
+      </a>
+      <button class="btn btn-success" onclick="exportToExcel()">
+        <i class="fa-solid fa-file-excel"></i> Xuất File Excel
+      </button>
+      <button class="btn btn-primary" onclick="openAddModal()">
+        <i class="fa-solid fa-plus"></i> Thêm Khách
+      </button>
+      <button class="btn btn-outline" onclick="lockDashboard()" title="Khóa bảng quản trị">
+        <i class="fa-solid fa-lock"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Stats Cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-content">
+          <div class="stat-label">Tổng Số Khách Hàng</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-sub">Đã lưu trong hệ thống</div>
+        </div>
+        <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-content">
+          <div class="stat-label">Khách Mới Hôm Nay</div>
+          <div class="stat-value" id="statToday">0</div>
+          <div class="stat-sub">Cần kết nối chăm sóc</div>
+        </div>
+        <div class="stat-icon gold"><i class="fa-solid fa-sparkles"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-content">
+          <div class="stat-label">Đơn Đặt Ebook</div>
+          <div class="stat-value" id="statEbook">0</div>
+          <div class="stat-sub">Quan tâm cẩm nang sức khỏe</div>
+        </div>
+        <div class="stat-icon blue"><i class="fa-solid fa-book-open"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-content">
+          <div class="stat-label">Đăng Ký Khóa Học & Tư Vấn</div>
+          <div class="stat-value" id="statCourse">0</div>
+          <div class="stat-sub">Danh sách chờ nhận ưu đãi</div>
+        </div>
+        <div class="stat-icon purple"><i class="fa-solid fa-graduation-cap"></i></div>
+      </div>
+    </section>
+
+    <!-- Filter & Search Bar -->
+    <section class="control-panel">
+      <div class="search-group">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Tìm theo tên khách, số điện thoại, email hoặc cuốn sách..." oninput="handleSearch()">
+      </div>
+
+      <div class="filter-group">
+        <select id="filterType" class="select-filter" onchange="handleFilter()">
+          <option value="ALL">Mọi loại đăng ký</option>
+          <option value="Đặt Ebook">Đặt mua Ebook</option>
+          <option value="Đăng ký khóa học">Đăng ký khóa học</option>
+          <option value="Tư vấn">Nhận tư vấn</option>
+        </select>
+
+        <select id="filterStatus" class="select-filter" onchange="handleFilter()">
+          <option value="ALL">Mọi trạng thái</option>
+          <option value="Chưa liên hệ">Chưa liên hệ</option>
+          <option value="Đã gửi Zalo">Đã gửi Zalo</option>
+          <option value="Hoàn thành">Hoàn thành</option>
+        </select>
+
+        <button class="btn btn-outline" onclick="loadCustomers(true)" title="Tải lại dữ liệu">
+          <i class="fa-solid fa-arrows-rotate"></i> Làm mới
+        </button>
+      </div>
+    </section>
+
+    <!-- Data Table -->
+    <section class="table-container">
+      <div class="table-header-box">
+        <div class="table-title">
+          <i class="fa-solid fa-address-book"></i> Danh Sách Khách Hàng
+          <span class="table-count" id="tableCountBadge">0 khách</span>
+        </div>
+        <span style="font-size: 13px; color: var(--text-muted);">
+          Tự động cập nhật tức thì mỗi khi có khách gửi thông tin
+        </span>
+      </div>
+
+      <div class="table-responsive">
+        <table id="customersTable">
+          <thead>
+            <tr>
+              <th>Thời Gian</th>
+              <th>Khách Hàng</th>
+              <th>Số Điện Thoại / Zalo</th>
+              <th>Sản Phẩm / Nhu Cầu</th>
+              <th>Chia Sẻ Của Khách</th>
+              <th>Trạng Thái</th>
+              <th style="text-align: right;">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Dữ liệu sẽ đổ vào đây -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <i class="fa-solid fa-leaf"></i>
+        <h3>Chưa có dữ liệu khách hàng phù hợp</h3>
+        <p>Các khách hàng để lại thông tin trên trang web sẽ tự động xuất hiện ở đây.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Thêm Khách Hàng Thủ Công -->
+  <div class="modal-backdrop" id="addModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-plus text-primary"></i> Thêm Khách Hàng Thủ Công</h3>
+        <button class="modal-close" onclick="closeAddModal()">&times;</button>
+      </div>
+      <form onsubmit="saveManualCustomer(event)">
+        <div class="form-group">
+          <label>Họ và Tên khách hàng *</label>
+          <input type="text" id="addName" required placeholder="Ví dụ: Hoàng Lan">
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại / Zalo *</label>
+          <input type="tel" id="addPhone" required placeholder="Ví dụ: 0912345678">
+        </div>
+        <div class="form-group">
+          <label>Địa chỉ Email</label>
+          <input type="email" id="addEmail" placeholder="Ví dụ: lan@gmail.com">
+        </div>
+        <div class="form-group">
+          <label>Loại nhu cầu</label>
+          <select id="addType">
+            <option value="Đặt Ebook">Đặt mua Ebook</option>
+            <option value="Đăng ký khóa học">Đăng ký khóa học</option>
+            <option value="Tư vấn">Nhận tư vấn dinh dưỡng</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tên cuốn sách / Dịch vụ quan tâm</label>
+          <input type="text" id="addProduct" placeholder="Ví dụ: Bữa Ăn Cân Bằng">
+        </div>
+        <div class="form-group">
+          <label>Ghi chú / Vấn đề sức khỏe của khách</label>
+          <textarea id="addNote" rows="2" placeholder="Ghi chú thêm về khách hàng..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeAddModal()">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Lưu Khách Hàng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast">
+    <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>
+    <span id="toastMsg">Thông báo</span>
+  </div>
+
+  <script>
+    const CORRECT_PASS = 'thuy2026';
+    let allCustomers = [];
+    let filteredCustomers = [];
+
+    // Khởi chạy khi load trang
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+    });
+
+    function checkAuth() {
+      const isAuth = sessionStorage.getItem('thuy_auth');
+      if (isAuth === 'true') {
+        document.getElementById('lockScreen').style.display = 'none';
+        loadCustomers();
+      } else {
+        document.getElementById('lockScreen').style.display = 'flex';
+      }
+    }
+
+    function verifyPass() {
+      const val = document.getElementById('passInput').value.trim();
+      if (val === CORRECT_PASS) {
+        sessionStorage.setItem('thuy_auth', 'true');
+        document.getElementById('lockScreen').style.display = 'none';
+        showToast('Chào Xếp Thủy! Đăng nhập thành công 🌿');
+        loadCustomers();
+      } else {
+        alert('Mã bảo mật chưa chính xác. Vui lòng thử lại!');
+        document.getElementById('passInput').focus();
+      }
+    }
+
+    function lockDashboard() {
+      sessionStorage.removeItem('thuy_auth');
+      document.getElementById('lockScreen').style.display = 'flex';
+      document.getElementById('passInput').value = '';
+    }
+
+    // Tải danh sách khách hàng từ Server & LocalStorage
+    async function loadCustomers(showNotification = false) {
+      try {
+        const res = await fetch('/api/customers');
+        if (res.ok) {
+          const result = await res.json();
+          allCustomers = result.data || [];
+          localStorage.setItem('thuy_customers_cache', JSON.stringify(allCustomers));
+        } else {
+          loadFromLocalCache();
+        }
+      } catch (err) {
+        loadFromLocalCache();
+      }
+
+      applyFilters();
+      if (showNotification) showToast('Đã làm mới dữ liệu khách hàng!');
+    }
+
+    function loadFromLocalCache() {
+      try {
+        const cached = localStorage.getItem('thuy_customers_cache');
+        if (cached) allCustomers = JSON.parse(cached);
+      } catch (e) {
+        allCustomers = [];
+      }
+    }
+
+    // Hiển thị danh sách khách lên giao diện
+    function renderTable(data) {
+      const tbody = document.getElementById('tableBody');
+      const emptyState = document.getElementById('emptyState');
+      const countBadge = document.getElementById('tableCountBadge');
+
+      countBadge.innerText = `${data.length} khách`;
+
+      if (data.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      tbody.innerHTML = data.map(item => {
+        const statusClass = item.status === 'Hoàn thành' ? 'done' : (item.status === 'Đã gửi Zalo' ? 'contacted' : 'uncontacted');
+        const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+
+        return `
+          <tr>
+            <td style="color: var(--text-muted); font-size: 13px; white-space: nowrap;">
+              <i class="fa-regular fa-clock" style="margin-right: 4px;"></i>${item.createdAt || 'Mới đây'}
+            </td>
+            <td>
+              <div class="customer-info">
+                <strong>${escapeHtml(item.name || 'Khách ghé thăm')}</strong>
+                ${item.email ? `<span><i class="fa-regular fa-envelope"></i> ${escapeHtml(item.email)}</span>` : ''}
+              </div>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center;">
+                <span class="phone-tag"><i class="fa-solid fa-phone"></i> ${escapeHtml(item.phone || 'Chưa có')}</span>
+                ${cleanPhone ? `
+                  <a href="https://zalo.me/${cleanPhone}" target="_blank" class="zalo-action" title="Nhắn Zalo cho khách">
+                    <i class="fa-solid fa-comment-dots"></i> Chat Zalo
+                  </a>
+                ` : ''}
+              </div>
+            </td>
+            <td>
+              <div class="badge-product" title="${escapeHtml(item.product || '')}">
+                ${escapeHtml(item.product || 'Tư vấn')}
+              </div>
+              <div class="badge-type">${escapeHtml(item.type || 'Đăng ký')}</div>
+            </td>
+            <td style="max-width: 280px; color: #4b5563; font-size: 13px;">
+              ${escapeHtml(item.note || 'Không có ghi chú')}
+            </td>
+            <td>
+              <select class="status-select ${statusClass}" onchange="updateCustomerStatus('${item.id}', this.value, this)">
+                <option value="Chưa liên hệ" ${item.status === 'Chưa liên hệ' ? 'selected' : ''}>⏳ Chưa liên hệ</option>
+                <option value="Đã gửi Zalo" ${item.status === 'Đã gửi Zalo' ? 'selected' : ''}>💬 Đã gửi Zalo</option>
+                <option value="Hoàn thành" ${item.status === 'Hoàn thành' ? 'selected' : ''}>✅ Hoàn thành</option>
+              </select>
+            </td>
+            <td style="text-align: right;">
+              <div class="action-btns" style="justify-content: flex-end;">
+                <button class="btn-icon" onclick="copyCustomerInfo('${item.id}')" title="Sao chép thông tin khách">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
+                <button class="btn-icon delete" onclick="deleteCustomer('${item.id}')" title="Xóa khách này">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      updateStats();
+    }
+
+    // Cập nhật các thẻ thống kê đầu trang
+    function updateStats() {
+      document.getElementById('statTotal').innerText = allCustomers.length;
+
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayCount = allCustomers.filter(c => (c.createdAt || '').startsWith(todayStr)).length;
+      document.getElementById('statToday').innerText = todayCount;
+
+      const ebookCount = allCustomers.filter(c => (c.type === 'Đặt Ebook')).length;
+      document.getElementById('statEbook').innerText = ebookCount;
+
+      const courseCount = allCustomers.filter(c => (c.type === 'Đăng ký khóa học' || c.type === 'Tư vấn')).length;
+      document.getElementById('statCourse').innerText = courseCount;
+    }
+
+    // Cập nhật trạng thái
+    async function updateCustomerStatus(id, newStatus, selectEl) {
+      selectEl.className = 'status-select ' + (newStatus === 'Hoàn thành' ? 'done' : (newStatus === 'Đã gửi Zalo' ? 'contacted' : 'uncontacted'));
+      
+      const item = allCustomers.find(c => c.id === id);
+      if (item) item.status = newStatus;
+
+      try {
+        await fetch('/api/customers/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status: newStatus })
+        });
+        showToast('Đã cập nhật trạng thái khách hàng!');
+      } catch (e) {
+        showToast('Đã lưu trạng thái vào bộ nhớ máy');
+      }
+    }
+
+    // Xóa khách hàng
+    async function deleteCustomer(id) {
+      if (!confirm('Xếp có chắc chắn muốn xóa khách hàng này khỏi danh sách không?')) return;
+
+      allCustomers = allCustomers.filter(c => c.id !== id);
+      applyFilters();
+
+      try {
+        await fetch('/api/customers/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        showToast('Đã xóa khách hàng');
+      } catch (e) {}
+    }
+
+    // Sao chép thông tin khách
+    function copyCustomerInfo(id) {
+      const item = allCustomers.find(c => c.id === id);
+      if (!item) return;
+
+      const text = `Khách hàng: ${item.name}\nSĐT/Zalo: ${item.phone}\nEmail: ${item.email || 'Không có'}\nNhu cầu: ${item.product}\nGhi chú: ${item.note || 'Không có'}`;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Đã sao chép thông tin khách vào bộ nhớ tạm!');
+      });
+    }
+
+    // Tìm kiếm và Lọc
+    function handleSearch() {
+      applyFilters();
+    }
+
+    function handleFilter() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const typeFilter = document.getElementById('filterType').value;
+      const statusFilter = document.getElementById('filterStatus').value;
+
+      filteredCustomers = allCustomers.filter(c => {
+        const matchesQuery = !query ||
+          (c.name && c.name.toLowerCase().includes(query)) ||
+          (c.phone && c.phone.includes(query)) ||
+          (c.email && c.email.toLowerCase().includes(query)) ||
+          (c.product && c.product.toLowerCase().includes(query)) ||
+          (c.note && c.note.toLowerCase().includes(query));
+
+        const matchesType = typeFilter === 'ALL' || c.type === typeFilter;
+        const matchesStatus = statusFilter === 'ALL' || c.status === statusFilter;
+
+        return matchesQuery && matchesType && matchesStatus;
+      });
+
+      renderTable(filteredCustomers);
+    }
+
+    // Modal Thêm Khách
+    function openAddModal() {
+      document.getElementById('addModal').classList.add('active');
+      document.getElementById('addName').focus();
+    }
+
+    function closeAddModal() {
+      document.getElementById('addModal').classList.remove('active');
+    }
+
+    async function saveManualCustomer(e) {
+      e.preventDefault();
+      const name = document.getElementById('addName').value.trim();
+      const phone = document.getElementById('addPhone').value.trim();
+      const email = document.getElementById('addEmail').value.trim();
+      const type = document.getElementById('addType').value;
+      const product = document.getElementById('addProduct').value.trim() || 'Tư vấn dinh dưỡng';
+      const note = document.getElementById('addNote').value.trim();
+
+      const newCustomer = {
+        name,
+        phone,
+        email,
+        type,
+        product,
+        note,
+        status: 'Chưa liên hệ'
+      };
+
+      try {
+        const res = await fetch('/api/customers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newCustomer)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          allCustomers.unshift(data.data);
+        } else {
+          newCustomer.id = Date.now().toString();
+          newCustomer.createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+          allCustomers.unshift(newCustomer);
+        }
+      } catch (err) {
+        newCustomer.id = Date.now().toString();
+        newCustomer.createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        allCustomers.unshift(newCustomer);
+      }
+
+      closeAddModal();
+      applyFilters();
+      showToast('Đã thêm khách hàng mới thành công! 🌿');
+      e.target.reset();
+    }
+
+    // Xuất file Excel (CSV chuẩn UTF-8 có BOM)
+    function exportToExcel() {
+      if (allCustomers.length === 0) {
+        alert('Chưa có khách hàng nào để xuất file ạ!');
+        return;
+      }
+
+      let csv = '\uFEFF'; // UTF-8 BOM để Excel hiển thị đúng tiếng Việt có dấu
+      csv += 'Mã,Ngày Giờ,Họ Tên,Số Điện Thoại,Email,Loại Nhu Cầu,Sản Phẩm Quan Tâm,Lời Nhắn Của Khách,Trạng Thái\n';
+
+      allCustomers.forEach(c => {
+        const row = [
+          `"${(c.id || '').replace(/"/g, '""')}"`,
+          `"${(c.createdAt || '').replace(/"/g, '""')}"`,
+          `"${(c.name || '').replace(/"/g, '""')}"`,
+          `"${(c.phone || '').replace(/"/g, '""')}"`,
+          `"${(c.email || '').replace(/"/g, '""')}"`,
+          `"${(c.type || '').replace(/"/g, '""')}"`,
+          `"${(c.product || '').replace(/"/g, '""')}"`,
+          `"${(c.note || '').replace(/"/g, '""')}"`,
+          `"${(c.status || '').replace(/"/g, '""')}"`
+        ];
+        csv += row.join(',') + '\n';
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Khach_Hang_Thanh_Thuy_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showToast('Đã xuất file Excel danh sách khách hàng thành công!');
+    }
+
+    // Toast notification
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
