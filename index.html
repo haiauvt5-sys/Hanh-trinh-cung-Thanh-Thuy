@@ -26,7 +26,7 @@
   <div class="announcement-bar">
     <div class="container announcement-inner">
       <span>✨ <strong>Chào Mừng Bạn:</strong> Đến với không gian chia sẻ Sống Khỏe, Chuyển Hóa & Sống Chủ Động cùng Thanh Thủy!</span>
-      <a href="https://zalo.me/0978864099" target="_blank" class="bar-link">Kết nối Zalo <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="javascript:void(0)" onclick="openZaloModal()" class="bar-link">Kết nối Zalo <i class="fa-solid fa-arrow-right"></i></a>
     </div>
   </div>
 
@@ -64,7 +64,7 @@
           <i class="fa-solid fa-bag-shopping"></i>
           <span class="cart-badge" id="cartBadge">0</span>
         </button>
-        <a href="https://zalo.me/0978864099" target="_blank" class="btn btn-primary btn-zalo-nav">
+        <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-primary btn-zalo-nav">
           <i class="fa-solid fa-comment-dots"></i> Nhắn Zalo Thủy
         </a>
         <button class="menu-toggle" id="menuToggle" aria-label="Mở menu">
@@ -291,7 +291,7 @@
                 <button type="button" class="btn btn-block" disabled style="background: #94a3b8; color: #fff; cursor: not-allowed; border: none; font-weight: 600;">
                   <i class="fa-solid fa-lock"></i> Tạm Đóng (Sẽ Mở Sau)
                 </button>
-                <a href="https://zalo.me/0978864099?text=Chào%20Thủy,%20mình%20quan%20tâm%20cuốn%20Bạn%20Có%20Quyền%20Lựa%20Chọn" target="_blank" class="btn btn-outline btn-block">
+                <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-outline btn-block">
                   <i class="fa-solid fa-comment-dots"></i> Trò Chuyện Cùng Thủy
                 </a>
               </div>
@@ -327,7 +327,10 @@
                 <a href="ebooks-online/phan-lon-ban-la-nuoc.html" target="_blank" class="btn btn-primary btn-block">
                   <i class="fa-solid fa-book-open"></i> Đọc Lật Trang Online
                 </a>
-                <a href="https://zalo.me/0978864099?text=Chào%20Thủy,%20mình%20vừa%20đọc%20cuốn%20Phần%20Lớn%20Bạn%20Là%20Nước" target="_blank" class="btn btn-outline btn-block">
+                <button type="button" onclick="quickOrder('eb2')" class="btn btn-accent btn-block">
+                  <i class="fa-solid fa-cart-shopping"></i> Đăng Ký Mua Ebook (199.000đ)
+                </button>
+                <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-outline btn-block">
                   <i class="fa-solid fa-comment-dots"></i> Trò Chuyện Cùng Thủy
                 </a>
               </div>
@@ -363,7 +366,10 @@
                 <a href="ebooks-online/ban-duoc-lam-tu-bua-an.html" target="_blank" class="btn btn-primary btn-block">
                   <i class="fa-solid fa-book-open"></i> Đọc Lật Trang Online
                 </a>
-                <a href="https://zalo.me/0978864099?text=Chào%20Thủy,%20mình%20vừa%20đọc%20cuốn%20Bạn%20Được%20Làm%20Từ%20Bữa%20Ăn" target="_blank" class="btn btn-outline btn-block">
+                <button type="button" onclick="quickOrder('eb3')" class="btn btn-accent btn-block">
+                  <i class="fa-solid fa-cart-shopping"></i> Đăng Ký Mua Ebook (199.000đ)
+                </button>
+                <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-outline btn-block">
                   <i class="fa-solid fa-comment-dots"></i> Trò Chuyện Cùng Thủy
                 </a>
               </div>
@@ -399,7 +405,10 @@
                 <a href="ebooks-online/giu-tron-bua-an-trong-tu-lanh.html" target="_blank" class="btn btn-primary btn-block">
                   <i class="fa-solid fa-book-open"></i> Đọc Lật Trang Online
                 </a>
-                <a href="https://zalo.me/0978864099?text=Chào%20Thủy,%20mình%20vừa%20đọc%20cuốn%20Giữ%20Trọn%20Bữa%20Ăn%20Trong%20Tủ%20Lạnh" target="_blank" class="btn btn-outline btn-block">
+                <button type="button" onclick="quickOrder('eb4')" class="btn btn-accent btn-block">
+                  <i class="fa-solid fa-cart-shopping"></i> Đăng Ký Mua Ebook (199.000đ)
+                </button>
+                <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-outline btn-block">
                   <i class="fa-solid fa-comment-dots"></i> Trò Chuyện Cùng Thủy
                 </a>
               </div>
@@ -412,9 +421,14 @@
         <div style="margin-top: 48px; background: linear-gradient(135deg, #1e4d3b 0%, #2d6a4f 100%); border-radius: var(--radius-lg); padding: 36px; color: #fff; text-align: center; box-shadow: var(--shadow-md);">
           <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 10px;">Bạn Cần Tư Vấn Về Dinh Dưỡng, Chuyển Hóa & Giải Pháp Chăm Sóc Cơ Thể Phù Hợp?</h3>
           <p style="color: #d1fae5; font-size: 1.05rem; max-width: 720px; margin: 0 auto 24px; line-height: 1.6;">Mỗi cơ thể có nhu cầu dinh dưỡng và khả năng chuyển hóa khác nhau. Thanh Thủy luôn lắng nghe, chia sẻ và đồng hành cùng bạn tìm ra hướng chăm sóc phù hợp với thể trạng và lối sống của mình.</p>
-          <a href="https://zalo.me/0978864099" target="_blank" class="btn btn-accent btn-lg">
-            <i class="fa-solid fa-comment-dots"></i> Nhắn Tin Trò Chuyện Trực Tiếp Cùng Thủy (0978 864 099)
-          </a>
+          <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+            <button type="button" onclick="quickOrder('eb_combo')" class="btn btn-accent btn-lg">
+              <i class="fa-solid fa-cart-shopping"></i> Đăng Ký Trọn Bộ Ebook
+            </button>
+            <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-light btn-lg">
+              <i class="fa-solid fa-comment-dots text-primary"></i> Trò Chuyện Cùng Thủy (0978 864 099)
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -543,7 +557,7 @@
             </li>
           </ul>
           <div class="coaching-action">
-            <a href="https://zalo.me/0978864099?text=Chào%20Thủy,%20mình%20muốn%20tìm%20hiểu%20về%20gói%20Đồng%20Hành%201:1%20Chuyển%20Hóa" target="_blank" class="btn btn-primary" style="padding: 16px 36px; font-size: 1.05rem;">
+            <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-primary" style="padding: 16px 36px; font-size: 1.05rem;">
               <i class="fa-solid fa-comment-dots"></i> Nhắn Zalo Đồng Hành 1:1 Cùng Thủy
             </a>
           </div>
@@ -677,7 +691,7 @@
           <h2>Hãy Bắt Đầu Yêu Thương Cơ Thể Của Bạn Ngay Hôm Nay</h2>
           <p>Mỗi bước đi nhỏ của bạn, mỗi sự lựa chọn dinh dưỡng lành mạnh là món quà vô giá cho bản thân bạn trong tương lai. Thủy luôn ở đây để lắng nghe và đồng hành cùng bạn.</p>
           <div class="cta-btns">
-            <a href="https://zalo.me/0978864099" target="_blank" class="btn btn-light btn-lg">
+            <a href="javascript:void(0)" onclick="openZaloModal()" class="btn btn-light btn-lg">
               <i class="fa-solid fa-comment-dots text-primary"></i> Nhắn Tin Trực Tiếp Với Thủy (0978 864 099)
             </a>
             <a href="#ebooks" class="btn btn-outline-white btn-lg">
@@ -713,7 +727,7 @@
           <li><a href="#triet-ly">Triết Lý Chuyển Hóa</a></li>
           <li><a href="#ebooks">Thư Viện Ebook</a></li>
           <li><a href="#tien-ich">Tiện Ích Dành Tặng Bạn</a></li>
-          <li><a href="#coaching">Dịch Vụ Đồng Hành 1:1</a></li>
+          <li><a href="#coaching">Đồng Hành 1:1</a></li>
           <li><a href="khoa-hoc.html">Các Khóa Học Dự Kiến</a></li>
           <li><a href="#feedback">Cảm Nhận Học Viên</a></li>
         </ul>
@@ -724,7 +738,7 @@
         <ul class="footer-links">
           <li><a href="javascript:void(0)" onclick="alert('Chính sách đọc Ebook: Bạn được mở quyền đọc lật trang trực tiếp online toàn bộ cẩm nang trên website vĩnh viễn, bảo mật bản quyền và không hỗ trợ tải về máy.')">Hướng dẫn đọc Ebook</a></li>
           <li><a href="javascript:void(0)" onclick="alert('Chính sách hoàn tiền: Nếu đọc xong bạn cảm thấy không nhận được giá trị gì trong 7 ngày đầu, Thủy sẵn sàng lắng nghe và hoàn lại 100% học phí.')">Chính sách bảo hành giá trị</a></li>
-          <li><a href="https://zalo.me/0978864099" target="_blank">Hỗ trợ riêng qua Zalo</a></li>
+          <li><a href="javascript:void(0)" onclick="openZaloModal()">Hỗ trợ riêng qua Zalo</a></li>
         </ul>
       </div>
 
@@ -746,7 +760,7 @@
 
   <!-- Floating Sticky Buttons -->
   <div class="floating-buttons">
-    <a href="https://zalo.me/0978864099" target="_blank" class="float-btn zalo-float" title="Chat Zalo Với Thủy">
+    <a href="javascript:void(0)" onclick="openZaloModal()" class="float-btn zalo-float" title="Chat Zalo Với Thủy">
       <i class="fa-solid fa-comment-dots"></i>
       <span class="float-text">Zalo Thủy</span>
     </a>
@@ -758,57 +772,237 @@
     </button>
   </div>
 
-  <!-- MODAL: Đặt Hàng Nhanh (Checkout Modal) -->
+  <!-- MODAL: Đặt Hàng Nhanh (Checkout Modal 2 Bước) -->
   <div class="modal-backdrop" id="orderModal">
     <div class="modal-dialog">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
-      <div class="modal-header">
-        <span class="modal-badge">🌿 Đặt Mua Dễ Dàng</span>
-        <h3 id="modalProductName">Tên Sản Phẩm Ebook</h3>
-        <p class="modal-subtitle">Thủy sẽ gửi Ebook & liên hệ hỗ trợ bạn ngay qua Zalo/Email</p>
+      
+      <!-- Thanh tiến trình 2 bước -->
+      <div class="order-steps-bar">
+        <div class="order-step-item active" id="stepIndicator1">
+          <span class="step-num">1</span>
+          <span class="step-title">Thông Tin Nhận Sách</span>
+        </div>
+        <div class="order-step-separator"><i class="fa-solid fa-chevron-right"></i></div>
+        <div class="order-step-item" id="stepIndicator2">
+          <span class="step-num">2</span>
+          <span class="step-title">Thanh Toán & Nhận Sách</span>
+        </div>
       </div>
+
+      <!-- Header Modal -->
+      <div class="modal-header">
+        <span class="modal-badge" id="modalStepBadge">🌿 Bước 1/2: Đăng Ký Nhận Ebook</span>
+        <h3 id="modalProductName">Tên Sản Phẩm Ebook</h3>
+        <p class="modal-subtitle" id="modalProductSubtitle">Thủy sẽ gửi Ebook & liên hệ hỗ trợ bạn ngay qua Zalo/Email</p>
+      </div>
+
       <div class="modal-body">
-        <div class="order-summary-box">
-          <div class="order-item-row">
-            <span id="summaryTitle">Ebook</span>
-            <strong id="summaryPrice" class="text-accent">199.000đ</strong>
+        <!-- ==================== BƯỚC 1: THU THẬP THÔNG TIN NHẬN EBOOK ==================== -->
+        <div id="orderStep1">
+          <div class="order-summary-box">
+            <div class="order-item-row">
+              <span id="summaryTitle">Ebook</span>
+              <strong id="summaryPrice" class="text-accent">199.000đ</strong>
+            </div>
+            <div class="order-bonus-row">
+              <i class="fa-solid fa-gift text-gold"></i> Tặng kèm: <em>Sổ tay 30 ngày lắng nghe cơ thể</em>
+            </div>
           </div>
-          <div class="order-bonus-row">
-            <i class="fa-solid fa-gift text-gold"></i> Tặng kèm: <em>Sổ tay 30 ngày lắng nghe cơ thể</em>
+
+          <form id="orderForm" onsubmit="event.preventDefault(); goToStep2Payment();">
+            <div class="form-group">
+              <label for="custName">Họ và Tên của bạn <span class="req">*</span></label>
+              <input type="text" id="custName" class="form-control" placeholder="Ví dụ: Nguyễn Thị Mai" required>
+            </div>
+
+            <div class="form-group">
+              <label for="custPhone">Số Điện Thoại / Zalo nhận Ebook <span class="req">*</span></label>
+              <input type="tel" id="custPhone" class="form-control" placeholder="Ví dụ: 0912 345 678" required>
+            </div>
+
+            <div class="form-group">
+              <label for="custEmail">Địa chỉ Email (để nhận file PDF dự phòng)</label>
+              <input type="email" id="custEmail" class="form-control" placeholder="Ví dụ: ban@gmail.com">
+            </div>
+
+            <div class="form-group">
+              <label for="custNote">Vấn đề sức khỏe / Mong muốn của bạn (nếu có)</label>
+              <textarea id="custNote" class="form-control" rows="2" placeholder="Ví dụ: Mình hay bị đầy bụng, muốn học cách ăn nhẹ người..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary btn-block btn-lg" onclick="goToStep2Payment()">
+                TIẾP TỤC THANH TOÁN & NHẬN EBOOK <i class="fa-solid fa-arrow-right"></i>
+              </button>
+              <p class="modal-note">
+                <i class="fa-solid fa-lock"></i> Thông tin của bạn hoàn toàn được bảo mật.
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- ==================== BƯỚC 2: THANH TOÁN QR & KÍCH HOẠT ==================== -->
+        <div id="orderStep2" style="display: none;">
+          <!-- Lời chào xác nhận đã lưu thông tin -->
+          <div class="step2-welcome-box">
+            <div class="welcome-tag"><i class="fa-solid fa-circle-check"></i> Đã Ghi Nhận Đăng Ký</div>
+            <p class="welcome-text">
+              Cảm ơn bạn <strong id="step2CustName" class="text-accent">bạn</strong>! Bạn vui lòng quét mã QR hoặc chuyển khoản để Thủy kích hoạt gửi cẩm nang <strong id="step2BookName">Ebook</strong> ngay nhé.
+            </p>
+          </div>
+
+          <!-- Khối mã QR VietinBank to rõ trung tâm -->
+          <div class="step2-qr-card">
+            <div class="step2-qr-header">
+              <div class="bank-title-wrap">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>VietinBank — Chuyển Khoản Nhanh 24/7</span>
+              </div>
+              <span class="qr-auto-badge">Tự động nhận diện</span>
+            </div>
+
+            <!-- Khung ảnh QR to, vuông vức, cực nét -->
+            <div class="step2-qr-center">
+              <div class="step2-qr-frame">
+                <img id="step2QrImage" src="vietinbank-qr-chuan.jpg" alt="Mã QR Chuyển Khoản VietinBank Thanh Thủy" class="step2-qr-img" onerror="this.src='vietinbank-qr-chuan.jpg'">
+              </div>
+              <div class="step2-qr-caption">
+                <i class="fa-solid fa-qrcode"></i> Mở <strong>App Ngân Hàng</strong> bất kỳ để quét mã nhanh
+              </div>
+            </div>
+
+            <!-- Bảng thông tin chuyển khoản minh bạch -->
+            <div class="step2-details-list">
+              <div class="step2-detail-row">
+                <span class="detail-label">Chủ tài khoản:</span>
+                <strong class="detail-val">TRIỆU THỊ THANH THỦY</strong>
+              </div>
+
+              <div class="step2-detail-row highlight-acc">
+                <span class="detail-label">Số tài khoản:</span>
+                <div class="detail-val-action">
+                  <strong class="bank-acc-large" id="step2AccNum">107600795568</strong>
+                  <button type="button" class="btn-copy-chip" onclick="copyBankAccount()" title="Sao chép số tài khoản">
+                    <i class="fa-regular fa-copy"></i> Chép STK
+                  </button>
+                </div>
+              </div>
+
+              <div class="step2-detail-row highlight-price">
+                <span class="detail-label">Số tiền cần thanh toán:</span>
+                <strong class="detail-price" id="step2PriceVal">199.000 đ</strong>
+              </div>
+
+              <div class="step2-detail-row highlight-memo">
+                <span class="detail-label">Nội dung chuyển khoản:</span>
+                <div class="detail-val-action">
+                  <span class="memo-code-badge" id="step2MemoVal">Mua Ebook</span>
+                  <button type="button" class="btn-copy-chip" onclick="copyStep2Memo()" title="Sao chép nội dung chuyển khoản">
+                    <i class="fa-regular fa-copy"></i> Chép nội dung
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nút hành động Bước 2 -->
+          <div class="step2-actions">
+            <button type="button" class="btn btn-zalo-big btn-block btn-lg" onclick="finishOrderAndOpenZalo()">
+              <i class="fa-solid fa-comment-dots"></i> ĐÃ CHUYỂN KHOẢN — NHẮN ZALO NHẬN EBOOK NGAY
+            </button>
+            <p class="step2-note">
+              <i class="fa-solid fa-circle-check text-success"></i> Thủy sẽ kiểm tra tài khoản và gửi ngay link đọc PDF nét cao + quà tặng qua Zalo cho bạn.
+            </p>
+            <button type="button" class="btn-back-link" onclick="backToStep1()">
+              <i class="fa-solid fa-arrow-left"></i> Quay lại sửa thông tin người nhận
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KẾT NỐI ZALO CÙNG THANH THỦY -->
+  <div class="modal-backdrop" id="zaloModal">
+    <div class="modal-dialog modal-zalo-dialog">
+      <button class="modal-close" onclick="closeModal('zaloModal')">&times;</button>
+      <div class="zalo-card-wrapper">
+        <!-- Cột bên trái: Profile Thanh Thủy -->
+        <div class="zalo-profile-side">
+          <div class="zalo-header-info">
+            <div class="zalo-avatar-box">
+              <img src="thanh-thuy.jpg" alt="Thanh Thủy" class="zalo-avatar-img">
+              <span class="zalo-status-dot" title="Đang trực tuyến"></span>
+            </div>
+            <div class="zalo-meta">
+              <h3 class="zalo-name">Thuythuyvt</h3>
+              <span class="zalo-role">Tư vấn Chăm Sóc Sức Khỏe & Kinh Doanh Thông Minh</span>
+              <a href="https://zalo.me/0978864099" target="_blank" class="btn btn-zalo-msg">
+                <i class="fa-solid fa-comment-dots"></i> Nhắn tin Zalo
+              </a>
+            </div>
+          </div>
+
+          <div class="zalo-bio-section">
+            <div class="zalo-bio-title">Giới thiệu bản thân</div>
+            <p class="zalo-bio-content">
+              "Tư vấn chăm sóc sức khỏe và mô hình kinh doanh siêu thông minh"
+            </p>
+            <p class="zalo-bio-sub">
+              🌿 Nuôi dưỡng Thân Tâm An Lành • Đồng hành cùng bạn trên hành trình chuyển hóa tích cực.
+            </p>
+
+            <div class="zalo-contact-list">
+              <!-- Số Zalo -->
+              <div class="zalo-contact-row">
+                <span class="zalo-c-lbl"><i class="fa-solid fa-phone"></i> SĐT / Zalo:</span>
+                <strong class="zalo-c-val" id="zaloPhoneText">0978 864 099</strong>
+                <button type="button" class="btn-copy-chip" onclick="copyZaloPhone()" title="Sao chép số Zalo">
+                  <i class="fa-regular fa-copy"></i> Chép
+                </button>
+              </div>
+
+              <!-- Tài khoản ngân hàng VietinBank -->
+              <div class="zalo-contact-row zalo-bank-highlight">
+                <div class="zalo-bank-lead">
+                  <span class="zalo-c-lbl"><i class="fa-solid fa-building-columns"></i> VietinBank:</span>
+                  <strong class="zalo-c-val bank-acc-num">107600795568</strong>
+                  <button type="button" class="btn-copy-chip" onclick="copyBankAccount()" title="Sao chép số tài khoản VietinBank">
+                    <i class="fa-regular fa-copy"></i> Chép STK
+                  </button>
+                </div>
+                <div class="zalo-bank-subinfo">
+                  Chủ TK: <strong>TRIỆU THỊ THANH THỦY</strong>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <form id="orderForm" onsubmit="handleFormSubmit(event)">
-          <div class="form-group">
-            <label for="custName">Họ và Tên của bạn <span class="req">*</span></label>
-            <input type="text" id="custName" class="form-control" placeholder="Ví dụ: Nguyễn Thị Mai" required>
-          </div>
-
-          <div class="form-group">
-            <label for="custPhone">Số Điện Thoại / Zalo nhận Ebook <span class="req">*</span></label>
-            <input type="tel" id="custPhone" class="form-control" placeholder="Ví dụ: 0912 345 678" required>
-          </div>
-
-          <div class="form-group">
-            <label for="custEmail">Địa chỉ Email (để nhận file PDF dự phòng)</label>
-            <input type="email" id="custEmail" class="form-control" placeholder="Ví dụ: ban@gmail.com">
-          </div>
-
-          <div class="form-group">
-            <label for="custNote">Vấn đề sức khỏe / Mong muốn của bạn (nếu có)</label>
-            <textarea id="custNote" class="form-control" rows="2" placeholder="Ví dụ: Mình hay bị đầy bụng, muốn học cách ăn nhẹ người..."></textarea>
-          </div>
-
-          <div class="form-actions">
-            <!-- Nút chính: Gửi trực tiếp qua Zalo của Xếp -->
-            <button type="button" class="btn btn-primary btn-block btn-lg" onclick="sendOrderViaZalo()">
-              <i class="fa-solid fa-paper-plane"></i> GỬI ĐƠN QUA ZALO CHO THỦY (0978 864 099)
+        <!-- Cột bên phải: Mã QR Tương tác (Tab Zalo & Tab Ngân Hàng) -->
+        <div class="zalo-qr-side">
+          <div class="zalo-qr-tabs">
+            <button type="button" class="zalo-qr-tab active" id="tabQrZalo" onclick="switchZaloQrTab('zalo')">
+              <i class="fa-solid fa-comment-dots"></i> QR Zalo
             </button>
-            <p class="modal-note">
-              <i class="fa-solid fa-lock"></i> Thông tin của bạn hoàn toàn được bảo mật.
-            </p>
+            <button type="button" class="zalo-qr-tab" id="tabQrBank" onclick="switchZaloQrTab('bank')">
+              <i class="fa-solid fa-building-columns"></i> QR VietinBank
+            </button>
           </div>
-        </form>
+
+          <div class="zalo-qr-card">
+            <div class="zalo-qr-frame">
+              <img src="zalo-qr-code.png" id="zaloModalQrImg" alt="Mã QR Thanh Thủy" class="zalo-qr-img">
+            </div>
+            <p class="zalo-qr-hint" id="zaloModalQrHint">
+              <i class="fa-solid fa-qrcode"></i> Mở Zalo, bấm <strong>quét QR</strong> để kết nối trên điện thoại
+            </p>
+            <a href="https://zalo.me/0978864099" target="_blank" class="zalo-open-direct" id="zaloModalDirectLink">
+              Hoặc bấm mở Zalo trên máy tính <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

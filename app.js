@@ -3,14 +3,53 @@
  * Xử lý: Đặt hàng nhanh qua Zalo, Xem trước mục lục, Lọc Ebook, Giỏ hàng, Responsive Nav
  */
 
-// Danh mục dữ liệu Ebook (Sẵn sàng để Xếp cập nhật Ebook thật)
-const EBOOKS_DATA = {};
+// Danh mục dữ liệu Ebook
+const EBOOKS_DATA = {
+  eb1: {
+    id: 'eb1',
+    name: 'Bạn Có Quyền Lựa Chọn',
+    shortName: 'Ebook: Bạn Có Quyền Lựa Chọn',
+    price: 199000,
+    pages: '7 Chương • Đọc Lật Trang Online'
+  },
+  eb2: {
+    id: 'eb2',
+    name: 'Phần Lớn Bạn Là Nước',
+    shortName: 'Ebook: Phần Lớn Bạn Là Nước',
+    price: 199000,
+    pages: '5 Chương • Đọc Lật Trang Online'
+  },
+  eb3: {
+    id: 'eb3',
+    name: 'Bạn Được Làm Từ Bữa Ăn Của Mình',
+    shortName: 'Ebook: Bạn Được Làm Từ Bữa Ăn',
+    price: 199000,
+    pages: '6 Chương • Đọc Lật Trang Online'
+  },
+  eb4: {
+    id: 'eb4',
+    name: 'Giữ Trọn Bữa Ăn Trong Tủ Lạnh',
+    shortName: 'Ebook: Giữ Trọn Bữa Ăn Trong Tủ Lạnh',
+    price: 199000,
+    pages: '5 Chương • Đọc Lật Trang Online'
+  },
+  eb_combo: {
+    id: 'eb_combo',
+    name: 'Trọn Bộ 4 Cẩm Nang Dinh Dưỡng & Sống Chủ Động',
+    shortName: 'Trọn Bộ 4 Cẩm Nang Ebook',
+    price: 499000,
+    pages: 'Trọn bộ 4 Ebook + Sổ tay 30 ngày lắng nghe cơ thể'
+  }
+};
 
 // Biến trạng thái
 let currentSelectedProduct = null;
 let cart = [];
 const SELLER_PHONE = '0978864099';
 const ZALO_LINK = `https://zalo.me/${SELLER_PHONE}`;
+const BANK_ACCOUNT = '107600795568';
+const BANK_NAME = 'VietinBank';
+const ACCOUNT_HOLDER = 'TRIỆU THỊ THANH THỦY';
 
 // Format tiền tệ VNĐ
 function formatMoney(amount) {
@@ -148,14 +187,95 @@ window.addEventListener('click', (e) => {
    ORDER FLOW & ZALO CHECKOUT
    -------------------------------------------------------------------------- */
 
+// Mở Modal liên hệ Zalo & xem mã QR
+function openZaloModal() {
+  switchZaloQrTab('zalo'); // reset về tab Zalo
+  openModal('zaloModal');
+}
+
+// Chuyển đổi qua lại giữa Tab QR Zalo và QR Ngân Hàng VietinBank
+function switchZaloQrTab(tabType) {
+  const qrImg = document.getElementById('zaloModalQrImg');
+  const qrHint = document.getElementById('zaloModalQrHint');
+  const qrDirect = document.getElementById('zaloModalDirectLink');
+  const tabZalo = document.getElementById('tabQrZalo');
+  const tabBank = document.getElementById('tabQrBank');
+
+  if (tabType === 'bank') {
+    if (qrImg) qrImg.src = 'vietinbank-qr-chuan.jpg';
+    if (qrHint) qrHint.innerHTML = '<i class="fa-solid fa-building-columns"></i> Quét bằng <strong>App Ngân Hàng</strong> để chuyển khoản nhanh 24/7';
+    if (qrDirect) {
+      qrDirect.href = 'javascript:void(0)';
+      qrDirect.onclick = copyBankAccount;
+      qrDirect.innerHTML = 'Bấm để sao chép số tài khoản VietinBank <i class="fa-regular fa-copy"></i>';
+    }
+    if (tabZalo) tabZalo.classList.remove('active');
+    if (tabBank) tabBank.classList.add('active');
+  } else {
+    if (qrImg) qrImg.src = 'zalo-qr-code.png';
+    if (qrHint) qrHint.innerHTML = '<i class="fa-solid fa-qrcode"></i> Mở Zalo, bấm <strong>quét QR</strong> để kết nối trên điện thoại';
+    if (qrDirect) {
+      qrDirect.href = 'https://zalo.me/0978864099';
+      qrDirect.onclick = null;
+      qrDirect.innerHTML = 'Hoặc bấm mở Zalo trên máy tính <i class="fa-solid fa-arrow-up-right-from-square"></i>';
+    }
+    if (tabZalo) tabZalo.classList.add('active');
+    if (tabBank) tabBank.classList.remove('active');
+  }
+}
+
+// Sao chép số tài khoản VietinBank
+function copyBankAccount() {
+  const acc = '107600795568';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(acc).then(() => {
+      alert('Đã sao chép số tài khoản VietinBank: 107600795568! 🌿');
+    }).catch(() => {
+      prompt('Số tài khoản VietinBank của Thanh Thủy:', acc);
+    });
+  } else {
+    prompt('Số tài khoản VietinBank của Thanh Thủy:', acc);
+  }
+}
+
+// Sao chép số điện thoại Zalo
+function copyZaloPhone() {
+  const phone = '0978864099';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(phone).then(() => {
+      alert('Đã sao chép số Zalo Thanh Thủy: 0978 864 099! 🌿');
+    }).catch(() => {
+      prompt('Số điện thoại Zalo của Thanh Thủy:', phone);
+    });
+  } else {
+    prompt('Số điện thoại Zalo của Thanh Thủy:', phone);
+  }
+}
+
+// Biến lưu thông tin đơn hàng hiện tại
+let currentOrderData = {
+  name: '',
+  phone: '',
+  email: '',
+  note: '',
+  memo: ''
+};
+
 // Bấm Đặt Mua Nhanh từ card Ebook
 function quickOrder(ebookId) {
-  const product = EBOOKS_DATA[ebookId] || EBOOKS_DATA.eb4;
+  const product = EBOOKS_DATA[ebookId] || EBOOKS_DATA.eb2;
   currentSelectedProduct = product;
 
-  document.getElementById('modalProductName').innerText = product.name;
-  document.getElementById('summaryTitle').innerText = product.shortName;
-  document.getElementById('summaryPrice').innerText = formatMoney(product.price);
+  // Reset về Bước 1
+  backToStep1(false);
+
+  const modalNameEl = document.getElementById('modalProductName');
+  const summaryTitleEl = document.getElementById('summaryTitle');
+  const summaryPriceEl = document.getElementById('summaryPrice');
+
+  if (modalNameEl) modalNameEl.innerText = product.name;
+  if (summaryTitleEl) summaryTitleEl.innerText = product.shortName;
+  if (summaryPriceEl) summaryPriceEl.innerText = formatMoney(product.price);
 
   openModal('orderModal');
 }
@@ -164,6 +284,134 @@ function quickOrder(ebookId) {
 function orderFromPreview() {
   closeModal('previewModal');
   quickOrder(currentSelectedProduct.id);
+}
+
+// Chuyển sang Bước 2: Thanh toán VietQR & Kích hoạt
+function goToStep2Payment() {
+  const nameInput = document.getElementById('custName');
+  const phoneInput = document.getElementById('custPhone');
+  const emailInput = document.getElementById('custEmail');
+  const noteInput = document.getElementById('custNote');
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const note = noteInput ? noteInput.value.trim() : '';
+
+  if (!name) {
+    alert('Dạ bạn vui lòng nhập Họ Tên để Thủy tiện xưng hô và gửi sách nhé ạ!');
+    if (nameInput) nameInput.focus();
+    return;
+  }
+
+  // Kiểm tra số điện thoại cơ bản
+  const phoneClean = phone.replace(/[^0-9]/g, '');
+  if (!phone || phoneClean.length < 9) {
+    alert('Dạ bạn vui lòng nhập Số Điện Thoại / Zalo hợp lệ để Thủy gửi link nhận Ebook nhé ạ!');
+    if (phoneInput) phoneInput.focus();
+    return;
+  }
+
+  const price = currentSelectedProduct ? currentSelectedProduct.price : 199000;
+  const productName = currentSelectedProduct ? currentSelectedProduct.name : 'Ebook Dinh Dưỡng';
+
+  // Tạo mã nội dung chuyển khoản gọn gàng, chuẩn ngân hàng: EB + SĐT + Tên
+  const shortName = name.split(' ').pop().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
+  const cleanMemo = `EB ${phoneClean.slice(-9)} ${shortName}`.trim();
+
+  currentOrderData = {
+    name: name,
+    phone: phone,
+    email: email,
+    note: note,
+    memo: cleanMemo
+  };
+
+  // 1. TỰ ĐỘNG LƯU NGAY THÔNG TIN KHÁCH HÀNG VÀO DATA (Đảm bảo không bao giờ rơi rụng data)
+  saveCustomerToBackend({
+    name: name,
+    phone: phone,
+    email: email,
+    note: note,
+    product: productName,
+    price: price,
+    memo: cleanMemo,
+    type: 'Đặt Ebook'
+  });
+
+  // 2. Cập nhật thông tin hiển thị ở Bước 2
+  const step2CustName = document.getElementById('step2CustName');
+  const step2BookName = document.getElementById('step2BookName');
+  const step2PriceVal = document.getElementById('step2PriceVal');
+  const step2MemoVal = document.getElementById('step2MemoVal');
+  const step2QrImg = document.getElementById('step2QrImage');
+
+  if (step2CustName) step2CustName.innerText = name;
+  if (step2BookName) step2BookName.innerText = productName;
+  if (step2PriceVal) step2PriceVal.innerText = formatMoney(price);
+  if (step2MemoVal) step2MemoVal.innerText = cleanMemo;
+
+  // 3. Tạo mã VietQR trực tuyến sắc nét kèm đúng số tiền và nội dung chuyển khoản
+  if (step2QrImg) {
+    const encodedMemo = encodeURIComponent(cleanMemo);
+    const dynamicQrUrl = `https://api.vietqr.io/image/970415-107600795568-compact2.jpg?amount=${price}&addInfo=${encodedMemo}&accountName=TRIEU%20THI%20THANH%20THUY`;
+    step2QrImg.src = dynamicQrUrl;
+    step2QrImg.onerror = function() {
+      // Nếu thiết bị không có internet hoặc API chậm thì fallback về mã QR cục bộ
+      this.src = 'vietinbank-qr-chuan.jpg';
+    };
+  }
+
+  // 4. Chuyển đổi giao diện sang Bước 2
+  const step1El = document.getElementById('orderStep1');
+  const step2El = document.getElementById('orderStep2');
+  const pill1 = document.getElementById('stepIndicator1');
+  const pill2 = document.getElementById('stepIndicator2');
+  const badgeEl = document.getElementById('modalStepBadge');
+
+  if (step1El) step1El.style.display = 'none';
+  if (step2El) step2El.style.display = 'block';
+  if (pill1) pill1.classList.remove('active');
+  if (pill2) pill2.classList.add('active');
+  if (badgeEl) badgeEl.innerHTML = '✨ Bước 2/2: Quét Mã & Kích Hoạt Ebook';
+
+  // Cuộn nhẹ lên đầu modal để khách nhìn trọn vẹn mã QR
+  const modalDialog = document.querySelector('#orderModal .modal-dialog');
+  if (modalDialog) modalDialog.scrollTop = 0;
+}
+
+// Quay lại Bước 1 sửa thông tin
+function backToStep1(scroll = true) {
+  const step1El = document.getElementById('orderStep1');
+  const step2El = document.getElementById('orderStep2');
+  const pill1 = document.getElementById('stepIndicator1');
+  const pill2 = document.getElementById('stepIndicator2');
+  const badgeEl = document.getElementById('modalStepBadge');
+
+  if (step1El) step1El.style.display = 'block';
+  if (step2El) step2El.style.display = 'none';
+  if (pill1) pill1.classList.add('active');
+  if (pill2) pill2.classList.remove('active');
+  if (badgeEl) badgeEl.innerHTML = '🌿 Bước 1/2: Đăng Ký Nhận Ebook';
+
+  if (scroll) {
+    const modalDialog = document.querySelector('#orderModal .modal-dialog');
+    if (modalDialog) modalDialog.scrollTop = 0;
+  }
+}
+
+// Sao chép nội dung chuyển khoản ở Bước 2
+function copyStep2Memo() {
+  const memo = currentOrderData.memo || 'Mua Ebook';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(memo).then(() => {
+      alert(`Đã sao chép nội dung chuyển khoản: "${memo}"! 🌿\nBạn chỉ cần dán vào mục Lời nhắn/Nội dung trong App Ngân Hàng nhé.`);
+    }).catch(() => {
+      prompt('Nội dung chuyển khoản:', memo);
+    });
+  } else {
+    prompt('Nội dung chuyển khoản:', memo);
+  }
 }
 
 // Tự động lưu thông tin khách hàng vào hệ thống
@@ -205,56 +453,38 @@ function saveCustomerToBackend(customerData) {
   }
 }
 
-// Xử lý gửi đơn hàng trực tiếp qua Zalo của Xếp Thủy
-function sendOrderViaZalo() {
-  const name = document.getElementById('custName').value.trim();
-  const phone = document.getElementById('custPhone').value.trim();
-  const email = document.getElementById('custEmail').value.trim();
-  const note = document.getElementById('custNote').value.trim();
+// Hoàn tất đơn hàng và mở Zalo kết nối với Xếp Thủy
+function finishOrderAndOpenZalo() {
+  const name = currentOrderData.name || (document.getElementById('custName') ? document.getElementById('custName').value.trim() : 'Bạn');
+  const phone = currentOrderData.phone || (document.getElementById('custPhone') ? document.getElementById('custPhone').value.trim() : '');
+  const email = currentOrderData.email || (document.getElementById('custEmail') ? document.getElementById('custEmail').value.trim() : '');
+  const note = currentOrderData.note || (document.getElementById('custNote') ? document.getElementById('custNote').value.trim() : '');
+  const memo = currentOrderData.memo || 'Mua Ebook';
 
-  if (!name) {
-    alert('Dạ bạn vui lòng nhập Họ Tên để Thủy tiện xưng hô và hỗ trợ nhé ạ!');
-    document.getElementById('custName').focus();
-    return;
-  }
+  const productName = currentSelectedProduct ? currentSelectedProduct.name : 'Ebook Dinh Dưỡng';
+  const price = currentSelectedProduct ? currentSelectedProduct.price : 199000;
 
-  if (!phone) {
-    alert('Dạ bạn vui lòng nhập Số Điện Thoại / Zalo để nhận Ebook nhé ạ!');
-    document.getElementById('custPhone').focus();
-    return;
-  }
-
-  // Tự động ghi nhận Data khách hàng vào hệ thống quản trị
-  saveCustomerToBackend({
-    name: name,
-    phone: phone,
-    email: email,
-    note: note,
-    product: currentSelectedProduct ? currentSelectedProduct.name : 'Ebook Dinh Dưỡng',
-    price: currentSelectedProduct ? currentSelectedProduct.price : 0,
-    type: 'Đặt Ebook'
-  });
-
-  // Soạn nội dung tin nhắn gửi qua Zalo chuẩn chỉn
+  // Soạn nội dung tin nhắn gửi qua Zalo chuẩn chỉn, ấm áp
   const message = `🌿 ĐƠN ĐẶT EBOOK - HÀNH TRÌNH CÙNG THANH THỦY\n` +
     `--------------------------------\n` +
-    `• Sản phẩm: ${currentSelectedProduct.name}\n` +
-    `• Giá ưu đãi: ${formatMoney(currentSelectedProduct.price)}\n` +
+    `• Cuốn cẩm nang: ${productName}\n` +
+    `• Giá ưu đãi: ${formatMoney(price)}\n` +
+    `• Chuyển khoản VietinBank: STK 107600795568 (Triệu Thị Thanh Thủy)\n` +
+    `• Nội dung CK: ${memo}\n` +
     `--------------------------------\n` +
     `• Người nhận: ${name}\n` +
     `• Số điện thoại/Zalo: ${phone}\n` +
     (email ? `• Email nhận sách: ${email}\n` : '') +
     (note ? `• Chia sẻ của bạn: ${note}\n` : '') +
     `--------------------------------\n` +
-    `Chào Thủy, mình vừa đặt đơn trên website. Nhờ Thủy hướng dẫn mình thanh toán và gửi cẩm nang Ebook cho mình nhé!`;
+    `Chào Thủy, mình vừa chuyển khoản đặt cuốn "${productName}". Nhờ Thủy kiểm tra và gửi link đọc Ebook + quà tặng cho mình nhé! 🌿`;
 
-  // Sao chép tin nhắn vào clipboard để người dùng có thể dán nếu cần
-  if (navigator.clipboard) {
+  // Sao chép tin nhắn vào clipboard
+  if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(message).catch(() => {});
   }
 
-  // Mở Zalo kết nối trực tiếp tới số điện thoại của Xếp
-  alert(`Cảm ơn bạn ${name}! Hệ thống sẽ mở Zalo của Thanh Thủy (0978 864 099) ngay bây giờ. Bạn chỉ cần bấm "Gửi" để Thủy gửi Ebook cho bạn nhé! 🌿`);
+  alert(`Cảm ơn bạn ${name}! Hệ thống sẽ mở Zalo của Thanh Thủy (0978 864 099) ngay bây giờ. Bạn chỉ cần gửi tin nhắn để Thủy gửi link đọc Ebook cho bạn ngay nhé! 🌿`);
   
   window.open(ZALO_LINK, '_blank');
   closeModal('orderModal');
