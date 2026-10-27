@@ -484,24 +484,42 @@
       const course = document.getElementById('regCourse').value;
       if (!name || !phone) return;
 
-      // Lưu vào backend
+      const customerItem = {
+        name: name,
+        phone: phone,
+        email: '',
+        note: `Đăng ký nhận thông tin khi có lịch khai giảng`,
+        product: course || 'Các Khóa Học Dự Kiến',
+        price: 0,
+        type: 'Đăng ký khóa học dự kiến',
+        status: 'Chưa liên hệ'
+      };
+
+      // 1. Bắn dữ liệu về Google Sheets
+      const sheetUrl = (window.APP_CONFIG && window.APP_CONFIG.GOOGLE_SHEET_URL) 
+        ? window.APP_CONFIG.GOOGLE_SHEET_URL 
+        : (localStorage.getItem('thuy_google_sheet_url') || '');
+
+      if (sheetUrl && sheetUrl.includes('script.google.com')) {
+        fetch(sheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(customerItem)
+        }).catch(() => {});
+      }
+
+      // 2. Lưu vào backend nội bộ
       fetch('/api/customers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          phone: phone,
-          email: '',
-          note: `Đăng ký nhận thông tin khi có lịch khai giảng`,
-          product: course || 'Các Khóa Học Dự Kiến',
-          price: 0,
-          type: 'Đăng ký khóa học dự kiến'
-        })
+        body: JSON.stringify(customerItem)
       }).catch(err => console.log(err));
 
       alert(`Cảm ơn ${name}! Thủy đã lưu số Zalo ${phone}. Khi khóa học "${course}" có lịch khai giảng chính thức, Thủy sẽ ưu tiên nhắn tin cho bạn nhé! 🌿`);
       window.open(`https://zalo.me/0978864099?text=${encodeURIComponent(`Chào Thủy, mình là ${name} (SĐT Zalo: ${phone}), mình vừa đăng ký nhận thông tin khi có lịch khai giảng khóa: ${course}!`)}`, '_blank');
     }
   </script>
+  <script src="config.js"></script>
 </body>
 </html>

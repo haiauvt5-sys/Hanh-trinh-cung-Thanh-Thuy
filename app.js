@@ -45,11 +45,12 @@ const EBOOKS_DATA = {
 // Biến trạng thái
 let currentSelectedProduct = null;
 let cart = [];
-const SELLER_PHONE = '0978864099';
-const ZALO_LINK = `https://zalo.me/${SELLER_PHONE}`;
-const BANK_ACCOUNT = '107600795568';
-const BANK_NAME = 'VietinBank';
-const ACCOUNT_HOLDER = 'TRIỆU THỊ THANH THỦY';
+const SELLER_PHONE = (window.APP_CONFIG && window.APP_CONFIG.SELLER_PHONE) || '0978864099';
+const ZALO_LINK = (window.APP_CONFIG && window.APP_CONFIG.ZALO_LINK) || `https://zalo.me/${SELLER_PHONE}`;
+const BANK_ACCOUNT = (window.APP_CONFIG && window.APP_CONFIG.BANK_ACCOUNT) || '107600795568';
+const BANK_NAME = (window.APP_CONFIG && window.APP_CONFIG.BANK_NAME) || 'VietinBank';
+const ACCOUNT_HOLDER = (window.APP_CONFIG && window.APP_CONFIG.ACCOUNT_HOLDER) || 'TRIỆU THỊ THANH THỦY';
+const GOOGLE_SHEET_URL = (window.APP_CONFIG && window.APP_CONFIG.GOOGLE_SHEET_URL) || '';
 
 // Format tiền tệ VNĐ
 function formatMoney(amount) {
@@ -414,10 +415,10 @@ function copyStep2Memo() {
   }
 }
 
-// Tự động lưu thông tin khách hàng vào hệ thống
+// Tự động lưu thông tin khách hàng vào hệ thống (Local Storage + Google Sheets + Server Nội Bộ)
 function saveCustomerToBackend(customerData) {
   try {
-    // 1. Lưu dự phòng vào LocalStorage
+    // 1. Lưu dự phòng vào LocalStorage của trình duyệt
     let list = [];
     try {
       const saved = localStorage.getItem('thuy_customers_cache');
@@ -433,16 +434,31 @@ function saveCustomerToBackend(customerData) {
       String(now.getSeconds()).padStart(2, '0');
 
     const item = {
-      id: Date.now().toString(),
-      createdAt: dateStr,
+      id: customerData.id || Date.now().toString(),
+      createdAt: customerData.createdAt || dateStr,
       ...customerData,
-      status: 'Chưa liên hệ'
+      status: customerData.status || 'Chưa liên hệ'
     };
 
     list.unshift(item);
     localStorage.setItem('thuy_customers_cache', JSON.stringify(list));
 
-    // 2. Gửi API lên máy chủ nội bộ
+    // 2. BẮN DỮ LIỆU TỰ ĐỘNG VỀ GOOGLE SHEETS TRỰC TUYẾN
+    // Chạy tốt 100% trên GitHub Pages, Điện thoại, Máy tính mà không cần bật server cục bộ
+    const targetSheetUrl = (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL.trim() !== '')
+      ? GOOGLE_SHEET_URL.trim()
+      : (localStorage.getItem('thuy_google_sheet_url') || '');
+
+    if (targetSheetUrl && targetSheetUrl.includes('script.google.com')) {
+      fetch(targetSheetUrl, {
+        method: 'POST',
+        mode: 'no-cors', // Bắt buộc dùng no-cors để tránh lỗi chặn CORS trên web tĩnh
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(item)
+      }).catch(err => console.warn('Lưu Google Sheet lỗi:', err));
+    }
+
+    // 3. Gửi API lên máy chủ nội bộ (nếu đang chạy localhost)
     fetch('/api/customers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -463,6 +479,19 @@ function finishOrderAndOpenZalo() {
 
   const productName = currentSelectedProduct ? currentSelectedProduct.name : 'Ebook Dinh Dưỡng';
   const price = currentSelectedProduct ? currentSelectedProduct.price : 199000;
+
+  // Cập nhật trạng thái khách hàng thành "Đã bấm xác nhận CK & Mở Zalo"
+  saveCustomerToBackend({
+    name: name,
+    phone: phone,
+    email: email,
+    note: note,
+    memo: memo,
+    product: productName,
+    price: price,
+    type: 'Đặt Ebook',
+    status: 'Đã bấm CK & Mở Zalo'
+  });
 
   // Soạn nội dung tin nhắn gửi qua Zalo chuẩn chỉn, ấm áp
   const message = `🌿 ĐƠN ĐẶT EBOOK - HÀNH TRÌNH CÙNG THANH THỦY\n` +

@@ -777,6 +777,9 @@
       <a href="http://localhost:8080" target="_blank" class="btn btn-outline">
         <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Trang Web
       </a>
+      <button class="btn btn-outline" onclick="openGoogleSheetModal()" title="Cài đặt kết nối Google Sheets">
+        <i class="fa-solid fa-table"></i> Google Sheets
+      </button>
       <button class="btn btn-success" onclick="exportToExcel()">
         <i class="fa-solid fa-file-excel"></i> Xuất File Excel
       </button>
@@ -940,12 +943,48 @@
     </div>
   </div>
 
+  <!-- Modal: Cài Đặt Google Sheets -->
+  <div class="modal-backdrop" id="gsModal">
+    <div class="modal-box" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-table text-primary"></i> Kết Nối Google Sheets Tự Động</h3>
+        <button class="modal-close" onclick="closeGoogleSheetModal()">&times;</button>
+      </div>
+      <div style="padding: 10px 0;">
+        <div style="background: #eaf5ef; border: 1px solid rgba(30,77,59,0.2); border-radius: 8px; padding: 12px 16px; margin-bottom: 18px; font-size: 13px; line-height: 1.6; color: #1e4d3b;">
+          <strong>🌿 Tự động hóa 100%:</strong> Khi có khách đặt Ebook, thông tin sẽ tự động nhảy vào Google Sheet của Xếp mà không phụ thuộc vào máy tính!
+        </div>
+        
+        <div class="form-group">
+          <label>Đường link Web App Google Apps Script (/exec):</label>
+          <input type="url" id="gsUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+          <small style="color: var(--text-muted); font-size: 12px; margin-top: 6px; display: block;">
+            Lấy từ Google Sheet -> Tiện ích mở rộng -> Apps Script -> Triển khai (Xem file <strong>HUONG_DAN_KET_NOI_GOOGLE_SHEET.md</strong>)
+          </small>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+          <button type="button" class="btn btn-outline" style="flex: 1;" onclick="testGoogleSheetConnection()">
+            <i class="fa-solid fa-plug"></i> Kiểm Tra Kết Nối
+          </button>
+          <button type="button" class="btn btn-primary" style="flex: 1;" onclick="saveGoogleSheetUrl()">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ
+          </button>
+        </div>
+      </div>
+      <div class="modal-actions" style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px;">
+        <button type="button" class="btn btn-outline" onclick="closeGoogleSheetModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast">
     <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>
     <span id="toastMsg">Thông báo</span>
   </div>
 
+  <script src="config.js"></script>
   <script>
     const CORRECT_PASS = 'thuy2026';
     let allCustomers = [];
@@ -985,18 +1024,84 @@
       document.getElementById('passInput').value = '';
     }
 
-    // Tải danh sách khách hàng từ Server & LocalStorage
-    async function loadCustomers(showNotification = false) {
+    function openGoogleSheetModal() {
+      const currentUrl = (window.APP_CONFIG && window.APP_CONFIG.GOOGLE_SHEET_URL) || localStorage.getItem('thuy_google_sheet_url') || '';
+      document.getElementById('gsUrlInput').value = currentUrl;
+      document.getElementById('gsModal').style.display = 'flex';
+    }
+
+    function closeGoogleSheetModal() {
+      document.getElementById('gsModal').style.display = 'none';
+    }
+
+    async function testGoogleSheetConnection() {
+      const url = document.getElementById('gsUrlInput').value.trim();
+      if (!url) {
+        alert('Xếp vui lòng nhập đường link Web App Google Apps Script nhé ạ!');
+        return;
+      }
+      showToast('Đang kiểm tra kết nối tới Google Sheets...');
       try {
-        const res = await fetch('/api/customers');
-        if (res.ok) {
-          const result = await res.json();
-          allCustomers = result.data || [];
-          localStorage.setItem('thuy_customers_cache', JSON.stringify(allCustomers));
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data && (data.success !== undefined || Array.isArray(data))) {
+          alert('🌿 Tuyệt vời! Kết nối tới Google Sheets thành công rực rỡ!\nSố lượng khách hiện có trên Sheet: ' + (data.total || (data.data ? data.data.length : 0)));
         } else {
-          loadFromLocalCache();
+          alert('Kết nối được tới URL nhưng định dạng chưa chuẩn. Xếp kiểm tra lại mã script nhé ạ.');
         }
       } catch (err) {
+        alert('Không thể kết nối tới Google Sheets. Xếp kiểm tra lại xem bước Triển khai Web App đã chọn "Bất kỳ ai" (Anyone) chưa nhé ạ!');
+      }
+    }
+
+    function saveGoogleSheetUrl() {
+      const url = document.getElementById('gsUrlInput').value.trim();
+      localStorage.setItem('thuy_google_sheet_url', url);
+      showToast('Đã lưu URL kết nối Google Sheets!');
+      closeGoogleSheetModal();
+      loadCustomers(true);
+    }
+
+    // Tải danh sách khách hàng từ Google Sheets, Server & LocalStorage
+    async function loadCustomers(showNotification = false) {
+      let loaded = false;
+
+      // 1. Ưu tiên tải trực tiếp từ Google Sheets nếu có cấu hình
+      const sheetUrl = (window.APP_CONFIG && window.APP_CONFIG.GOOGLE_SHEET_URL)
+        ? window.APP_CONFIG.GOOGLE_SHEET_URL
+        : (localStorage.getItem('thuy_google_sheet_url') || '');
+
+      if (sheetUrl && sheetUrl.includes('script.google.com')) {
+        try {
+          const gsRes = await fetch(sheetUrl);
+          if (gsRes.ok) {
+            const gsResult = await gsRes.json();
+            if (gsResult && gsResult.success && Array.isArray(gsResult.data)) {
+              allCustomers = gsResult.data;
+              localStorage.setItem('thuy_customers_cache', JSON.stringify(allCustomers));
+              loaded = true;
+            }
+          }
+        } catch (e) {
+          console.warn('Tải từ Google Sheets không khả dụng, chuyển sang server:', e);
+        }
+      }
+
+      // 2. Nếu chưa có Google Sheets, thử lấy từ server nội bộ
+      if (!loaded) {
+        try {
+          const res = await fetch('/api/customers');
+          if (res.ok) {
+            const result = await res.json();
+            allCustomers = result.data || [];
+            localStorage.setItem('thuy_customers_cache', JSON.stringify(allCustomers));
+            loaded = true;
+          }
+        } catch (err) {}
+      }
+
+      // 3. Fallback cuối cùng từ LocalStorage
+      if (!loaded) {
         loadFromLocalCache();
       }
 
