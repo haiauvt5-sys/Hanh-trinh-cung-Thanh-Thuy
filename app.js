@@ -316,12 +316,22 @@ function goToStep2Payment() {
   const price = currentSelectedProduct ? currentSelectedProduct.price : 199000;
   const productName = currentSelectedProduct ? currentSelectedProduct.name : 'Ebook Dinh Dưỡng';
 
+  // Chuẩn hóa họ tên: loại bỏ khoảng trắng thừa và viết hoa chữ cái đầu
+  const formattedName = name.trim().replace(/\s+/g, ' ').split(' ')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+
   // Tạo mã nội dung chuyển khoản gọn gàng, chuẩn ngân hàng: EB + SĐT + Tên
-  const shortName = name.split(' ').pop().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
-  const cleanMemo = `EB ${phoneClean.slice(-9)} ${shortName}`.trim();
+  const nameParts = formattedName.split(' ');
+  const rawLastName = nameParts.length > 0 ? nameParts[nameParts.length - 1] : 'Ban';
+  const cleanLastName = rawLastName.normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+    .replace(/[^a-zA-Z0-9]/g, '');
+  const cleanMemo = `EB ${phoneClean.slice(-9)} ${cleanLastName}`.trim();
 
   currentOrderData = {
-    name: name,
+    name: formattedName,
     phone: phone,
     email: email,
     note: note,
@@ -494,10 +504,10 @@ function finishOrderAndOpenZalo() {
   });
 
   // Soạn nội dung tin nhắn gửi qua Zalo chuẩn chỉn, ấm áp
-  const message = `🌿 ĐƠN ĐẶT EBOOK - HÀNH TRÌNH CÙNG THANH THỦY\n` +
+  const message = `ĐƠN ĐÓN NHẬN CẨM NANG — HÀNH TRÌNH CÙNG THANH THỦY\n` +
     `--------------------------------\n` +
     `• Cuốn cẩm nang: ${productName}\n` +
-    `• Giá ưu đãi: ${formatMoney(price)}\n` +
+    `• Khoản phí đồng hành: ${formatMoney(price)}\n` +
     `• Chuyển khoản VietinBank: STK 107600795568 (Triệu Thị Thanh Thủy)\n` +
     `• Nội dung CK: ${memo}\n` +
     `--------------------------------\n` +
@@ -506,7 +516,7 @@ function finishOrderAndOpenZalo() {
     (email ? `• Email nhận sách: ${email}\n` : '') +
     (note ? `• Chia sẻ của bạn: ${note}\n` : '') +
     `--------------------------------\n` +
-    `Chào Thủy, mình vừa chuyển khoản đặt cuốn "${productName}". Nhờ Thủy kiểm tra và gửi link đọc Ebook + quà tặng cho mình nhé! 🌿`;
+    `Chào Thủy, mình vừa chuyển khoản đón nhận cuốn "${productName}". Nhờ Thủy kiểm tra và gửi link đọc cẩm nang + quà tặng cho mình nhé! 🌿`;
 
   // Sao chép tin nhắn vào clipboard
   if (navigator.clipboard && navigator.clipboard.writeText) {
