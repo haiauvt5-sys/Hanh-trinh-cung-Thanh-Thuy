@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 echo ========================================================
 echo   DANG DAY WEBSITE LEN GITHUB PAGES...
-echo   Kho: haiauvt5-sys/Hanh-trinh-cung-Thanh-Thuy
+echo   Kho: hanhtrinhcungthanhthuy/hanhtrinhcungthanhthuy.github.io
 echo ========================================================
 echo [1/3] Đang lưu các thay đổi mới...
 git add .
@@ -17,7 +17,7 @@ if %errorlevel% equ 0 (
     echo ========================================================
     echo   CHUC MUNG XEP! DA DAY LEN GITHUB THANH CONG!
     echo   Trang web public:
-    echo   https://haiauvt5-sys.github.io/Hanh-trinh-cung-Thanh-Thuy/
+    echo   https://hanhtrinhcungthanhthuy.github.io/
     echo ========================================================
 ) else (
     echo ========================================================
